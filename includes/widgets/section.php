@@ -52,7 +52,7 @@ class Theme_Section_Widget extends WP_Widget
 		$posts = get_posts( array
 		(
 			'post_type'   => THEME_SECTIONS_POST_TYPE,
-			'numberposts' => 999
+			'numberposts' => THEME_MAX_NUMBERPOSTS,
 		));
 
 		// No sections found.
