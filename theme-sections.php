@@ -19,20 +19,11 @@ defined( 'THEME_SECTIONS_POST_TYPE' ) or define( 'THEME_SECTIONS_POST_TYPE', 'se
 
 function init()
 {
-	$theme = wp_get_theme();
-
-	if ( ! $theme || $theme->template != 'theme' ) 
-	{
-		add_action( 'admin_notices', 'theme\sections\dependency_notice' );
-
-		return;
-	}
-
-	add_action( 'init'        , 'theme\sections\register_post_type' );
+	add_action( 'init'        , 'theme\sections\register_post_type', 15 );
 	add_action( 'widgets_init', 'theme\sections\widgets_init' );
 }
 
-add_action( 'plugins_loaded', 'theme\sections\init' );
+add_action( 'init', 'theme\sections\init' );
 
 function register_post_type()
 {
@@ -65,7 +56,7 @@ function register_post_type()
 		'has_archive'        => false,
 		'hierarchical'       => false,
 		'menu_position'      => null,
-		'supports'           => array( 'title', 'editor' )
+		'supports'           => array( 'title', 'editor' ),
 	));
 }
 
@@ -75,11 +66,3 @@ function widgets_init()
 }
 
 add_action( 'widgets_init', 'theme\sections\widgets_init' );
-
-function dependency_notice()
-{
-	$message = sprintf( esc_html__( '%s plugin needs %s theme.', 'theme-sections' ), 
-		'<strong>Sections</strong>', '<strong>Theme</strong>' );
-
-	printf( '<div class="notice notice-error"><p>%s</p></div>', $message ); 
-}
