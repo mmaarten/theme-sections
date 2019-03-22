@@ -1,6 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
+<?php 
 
-class Theme_Section_Widget extends WP_Widget
+namespace theme\sections;
+
+class Section_Widget extends \WP_Widget
 {
 	public function __construct()
 	{
@@ -18,10 +20,10 @@ class Theme_Section_Widget extends WP_Widget
 			return;
 		}
 
-		$the_query = new WP_Query( array
+		$the_query = new \WP_Query( array
 		(
 			'p'         => $instance['section'],
-			'post_type' => THEME_SECTIONS_POST_TYPE
+			'post_type' => THEME_SECTIONS_POST_TYPE,
 		));
 
 		if ( ! $the_query->have_posts() ) 
@@ -35,7 +37,7 @@ class Theme_Section_Widget extends WP_Widget
 		{
 			$the_query->the_post();
 
-			get_template_part( 'template-parts/content', get_post_type() );
+			get_template_part( 'template-parts/loop', THEME_SECTIONS_POST_TYPE );
 		}
 
 		wp_reset_postdata();
@@ -52,7 +54,7 @@ class Theme_Section_Widget extends WP_Widget
 		$posts = get_posts( array
 		(
 			'post_type'   => THEME_SECTIONS_POST_TYPE,
-			'numberposts' => THEME_MAX_NUMBERPOSTS,
+			'numberposts' => 999,
 		));
 
 		// No sections found.
@@ -61,7 +63,7 @@ class Theme_Section_Widget extends WP_Widget
 		{
 			printf( '<p>%s <a href="%s" target="_blank">%s</a></p>', 
 				esc_html__( 'No sections found.', 'theme-sections' ),
-				admin_url( 'post-new.php?post_type=' . urlencode( THEME_SECTIONS_POST_TYPE ) ),
+				add_query_arg( 'post_type', THEME_SECTIONS_POST_TYPE, get_admin_url( 'post-new.php' ) ),
 				esc_html__( 'Add Section' ) );
 
 			return;
@@ -93,4 +95,4 @@ class Theme_Section_Widget extends WP_Widget
 	}
 }
 
-register_widget( 'Theme_Section_Widget' );
+register_widget( 'theme\sections\Section_Widget' );

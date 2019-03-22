@@ -1,10 +1,12 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
+<?php
 
-defined( 'THEME_SECTIONS_POST_TYPE' ) or define( 'THEME_SECTIONS_POST_TYPE', 'section' );
+namespace theme\sections;
 
-function theme_sections_register_post_type()
+defined( 'THEME_SECTIONS_POST_TYPE' ) or defined( 'THEME_SECTIONS_POST_TYPE', 'section' );
+
+function register_post_type()
 {
-	register_post_type( THEME_SECTIONS_POST_TYPE, array
+	\register_post_type( THEME_SECTIONS_POST_TYPE, array
 	(
 		'labels' => array
 		(
@@ -37,11 +39,11 @@ function theme_sections_register_post_type()
 	));
 }
 
-add_action( 'init', 'theme_sections_register_post_type' );
+add_action( 'init', 'theme\sections\register_post_type' );
 
-function theme_sections_widgets_init()
+function widgets_init()
 {
-	require_once plugin_dir_path( THEME_SECTIONS_FILE ) . 'includes/widgets/section.php';
+	require_once plugin_dir_path( THEME_SECTIONS_FILE ) . 'includes/section-widget.php';
 }
 
-add_action( 'widgets_init', 'theme_sections_widgets_init' );
+add_action( 'widgets_init', 'theme\sections\widgets_init' );

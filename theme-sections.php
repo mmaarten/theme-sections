@@ -1,4 +1,4 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exits when accessed directly.
+<?php
 /*
 Plugin Name:  Sections
 Plugin URI:   
@@ -12,10 +12,11 @@ Text Domain:  theme-sections
 Domain Path:  /languages
 */
 
+namespace theme\sections;
+
 define( 'THEME_SECTIONS_FILE', __FILE__ );
 
-
-function theme_sections_load()
+function load()
 {
 	$theme = wp_get_theme();
 
@@ -26,13 +27,13 @@ function theme_sections_load()
 
 	else
 	{
-		add_action( 'admin_notices', 'theme_sections_dependency_notice' );
+		add_action( 'admin_notices', 'theme\sections\dependency_notice' );
 	}
 }
 
-add_action( 'plugins_loaded', 'theme_sections_load' );
+add_action( 'plugins_loaded', 'theme\sections\load' );
 
-function theme_sections_dependency_notice()
+function dependency_notice()
 {
 	$message = sprintf( esc_html__( '%s plugin needs %s theme.', 'theme-sections' ), 
 		'<strong>Sections</strong>', '<strong>Theme</strong>' );
